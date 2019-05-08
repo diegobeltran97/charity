@@ -1,0 +1,292 @@
+/* globals edd_fsc */
+/* globals ga */
+var symbols = {
+	'AED': 'د.إ',
+	'AFN': '؋',
+	'ALL': 'L',
+	'ANG': 'ƒ',
+	'AOA': 'Kz',
+	'ARS': '$',
+	'AUD': '$',
+	'AWG': 'ƒ',
+	'AZN': '₼',
+	'BAM': 'KM',
+	'BBD': '$',
+	'BDT': '৳',
+	'BGN': 'лв',
+	'BHD': '.د.ب',
+	'BIF': 'FBu',
+	'BMD': '$',
+	'BND': '$',
+	'BOB': 'Bs.',
+	'BRL': 'R$',
+	'BSD': '$',
+	'BTC': '฿',
+	'BTN': 'Nu.',
+	'BWP': 'P',
+	'BYR': 'p.',
+	'BZD': 'BZ$',
+	'CAD': '$',
+	'CDF': 'FC',
+	'CHF': 'Fr.',
+	'CLP': '$',
+	'CNY': '¥',
+	'COP': '$',
+	'CRC': '₡',
+	'CUC': '$',
+	'CUP': '₱',
+	'CVE': '$',
+	'CZK': 'Kč',
+	'DJF': 'Fdj',
+	'DKK': 'kr',
+	'DOP': 'RD$',
+	'DZD': 'دج',
+	'EEK': 'kr',
+	'EGP': '£',
+	'ERN': 'Nfk',
+	'ETB': 'Br',
+	'ETH': 'Ξ',
+	'EUR': '€',
+	'FJD': '$',
+	'FKP': '£',
+	'GBP': '£',
+	'GEL': '₾',
+	'GGP': '£',
+	'GHC': '₵',
+	'GHS': 'GH₵',
+	'GIP': '£',
+	'GMD': 'D',
+	'GNF': 'FG',
+	'GTQ': 'Q',
+	'GYD': '$',
+	'HKD': '$',
+	'HNL': 'L',
+	'HRK': 'kn',
+	'HTG': 'G',
+	'HUF': 'Ft',
+	'IDR': 'Rp',
+	'ILS': '₪',
+	'IMP': '£',
+	'INR': '₹',
+	'IQD': 'ع.د',
+	'IRR': '﷼',
+	'ISK': 'kr',
+	'JEP': '£',
+	'JMD': 'J$',
+	'JPY': '¥',
+	'KES': 'KSh',
+	'KGS': 'лв',
+	'KHR': '៛',
+	'KMF': 'CF',
+	'KPW': '₩',
+	'KRW': '₩',
+	'KYD': '$',
+	'KZT': '₸',
+	'LAK': '₭',
+	'LBP': '£',
+	'LKR': '₨',
+	'LRD': '$',
+	'LSL': 'M',
+	'LTC': 'Ł',
+	'LTL': 'Lt',
+	'LVL': 'Ls',
+	'MAD': 'MAD',
+	'MDL': 'lei',
+	'MGA': 'Ar',
+	'MKD': 'ден',
+	'MMK': 'K',
+	'MNT': '₮',
+	'MOP': 'MOP$',
+	'MUR': '₨',
+	'MVR': 'Rf',
+	'MWK': 'MK',
+	'MXN': '$',
+	'MYR': 'RM',
+	'MZN': 'MT',
+	'NAD': '$',
+	'NGN': '₦',
+	'NIO': 'C$',
+	'NOK': 'kr',
+	'NPR': '₨',
+	'NZD': '$',
+	'OMR': '﷼',
+	'PAB': 'B/.',
+	'PEN': 'S/.',
+	'PGK': 'K',
+	'PHP': '₱',
+	'PKR': '₨',
+	'PLN': 'zł',
+	'PYG': 'Gs',
+	'QAR': '﷼',
+	'RMB': '￥',
+	'RON': 'lei',
+	'RSD': 'Дин.',
+	'RUB': '₽',
+	'RWF': 'R₣',
+	'SAR': '﷼',
+	'SBD': '$',
+	'SCR': '₨',
+	'SDG': 'ج.س.',
+	'SEK': 'kr',
+	'SGD': '$',
+	'SHP': '£',
+	'SLL': 'Le',
+	'SOS': 'S',
+	'SRD': '$',
+	'SSP': '£',
+	'STD': 'Db',
+	'SVC': '$',
+	'SYP': '£',
+	'SZL': 'E',
+	'THB': '฿',
+	'TJS': 'SM',
+	'TMT': 'T',
+	'TND': 'د.ت',
+	'TOP': 'T$',
+	'TRL': '₤',
+	'TRY': '₺',
+	'TTD': 'TT$',
+	'TVD': '$',
+	'TWD': 'NT$',
+	'TZS': 'TSh',
+	'UAH': '₴',
+	'UGX': 'USh',
+	'USD': '$',
+	'UYU': '$U',
+	'UZS': 'лв',
+	'VEF': 'Bs',
+	'VND': '₫',
+	'VUV': 'VT',
+	'WST': 'WS$',
+	'XAF': 'FCFA',
+	'XBT': 'Ƀ',
+	'XCD': '$',
+	'XOF': 'CFA',
+	'XPF': '₣',
+	'YER': '﷼',
+	'ZAR': 'R',
+	'ZWD': 'Z$'
+};
+
+function edd_fsc_after_markup() {
+	var prices_containers = jQuery('.edd-fs-price');
+	if (prices_containers.length > 0) {
+		prices_containers.each(function () {
+			var price = jQuery(this);
+			var price_value = price.find('span').text();
+			price_value = parseFloat(price_value);
+			price.find('span').text(price_value.toFixed(0));
+			var sup = price.find('sup');
+			var currency = jQuery(this).find('sup').text();
+			if (symbols[currency]) {
+				sup.text(symbols[currency]);
+			}
+			price.show();
+			var del = price.parent().find('del');
+			if (price.parent().find('.edd-fs-price-no-discount').length === 0) {
+				if (del.length > 0) {
+					del.find('span').html('<sup>' + symbols[currency] + '</sup> ' + parseInt(price_value * 1.2) + '.99');
+				}
+			} else {
+				price.parent().find('br').remove();
+				del.remove();
+			}
+
+		});
+		jQuery(document).trigger('ti-price-done');
+	}
+	jQuery('.edd-fs-price-no-discount').each(function () {
+		var price = jQuery(this);
+		var price_value = price.text().split('.');
+		if (price_value.length === 2) {
+			price.text(price_value[0]);
+		}
+	});
+	jQuery('#upgrade-btn').on('click', function () {
+
+		var th = jQuery(this);
+		var upgrade_slug = th.attr('data-upgrade-slug');
+		var new_product = th.attr('data-new-product-slug');
+		var license = th.attr('data-upgrade-license');
+		var upgrade_modal = jQuery('#upgrade-confirm #cart-contents');
+
+		upgrade_modal.text(' Scheduling the upgrade ....');
+		jQuery.ajax({
+			url: edd_fsc.rest.root + edd_fsc.rest.path + '/' + edd_fsc.rest.do_upgrade,
+			type: 'POST',
+			headers: {
+				'X-WP-Nonce': edd_fsc.rest.nonce
+			},
+			data: {
+				'upgrade_slug': upgrade_slug,
+				'new_product': new_product,
+				'key': license,
+				'discount': edd_fsc.discount,
+			},
+			success: function (r) {
+				if (r.status === true) {
+					upgrade_modal.html('Please allow around 1min for the upgrade to take place.');
+				} else {
+					upgrade_modal.html('An error ocured. Please try again later.');
+				}
+				setTimeout(function(){
+					jQuery('#upgrade-confirm').hide();
+				},5000);
+			}
+		});
+		return false;
+	});
+	jQuery('.edd-fastspring-upgrade-btn').on('click', function () {
+
+		var upgrade_modal = jQuery('#upgrade-confirm');
+
+		if (upgrade_modal.length === 0) {
+			return false;
+		}
+		var upgrade_btn = jQuery(this);
+		var upgrade_slug = upgrade_btn.attr('data-upgrade-slug');
+		var new_product = upgrade_btn.attr('data-upgrade-new-product');
+		var license = upgrade_btn.attr('data-upgrade-license');
+		var upgrade_title = 'One-click ' + upgrade_btn.attr('data-title');
+		var renew_date = upgrade_btn.attr('data-renew');
+
+		var upgrade_cost = jQuery('[data-fsc-item-path="' + upgrade_slug + '"]').closest('.edd-fs-price').text();
+		var new_price = jQuery('.edd-fs-price-no-discount[data-fsc-item-path="' + new_product + '"]').text();
+
+
+		upgrade_modal.find('.modal-upgrade-cost').html(upgrade_cost);
+		upgrade_modal.find('.modal-upgrade-new-charge-date').html(renew_date);
+		upgrade_modal.find('.modal-upgrade-new-cost').html(new_price);
+		upgrade_modal.find('.product-name').html(upgrade_title);
+		upgrade_modal.show();
+
+		jQuery('#upgrade-btn').attr('data-upgrade-slug', upgrade_slug).attr('data-new-product-slug', new_product).attr('data-upgrade-license', license);
+		return false;
+
+	});
+}
+
+function edd_fsc_order(order) {
+	if (order.taxExemptionAllowed === true) {
+		jQuery('.edd-fsc-tax-flag').show();
+	}
+}
+
+function edd_popup_closed(details) {
+	if (typeof  details !== undefined) {
+		if (details.id) {
+			location.href = edd_fsc.confirmation + '?transaction=' + details.id;
+		}
+	}
+}
+
+function edd_decorate_url(url) {
+	var linkerParam = null;
+	if (typeof  ga !== 'undefined') {
+		ga(function () {
+			var trackers = ga.getAll();
+			linkerParam = trackers[0].get('linkerParam');
+		});
+	}
+	return (linkerParam ? url + '?' + linkerParam : url);
+}

@@ -1,0 +1,46 @@
+/* global sd */
+(function ($, sd) {
+
+	$(document).ready(function () {
+        if('yes' === sd.allow_redeem){
+            $('#edd_redeem_discount').on('click', function (e) {
+                e.preventDefault();
+                $(this).remove();
+                $('#edd_redeem_discount_show').html($(this).attr('data-loading'));
+
+                $.ajax({
+                    url: sd.rest.voucher,
+                    method: 'get',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('X-WP-Nonce', sd.ajax.nonce);
+
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#edd_redeem_discount_show').html('<input style="margin: auto;text-align: center" type="text" readonly value="' + data.code +'" />');
+                    }
+                });
+            });
+        }
+
+		$('#edd_redeem_discount_store a').on('click', function (e) {
+			e.preventDefault();
+			$(this).html($(this).attr('data-loading'));
+
+			$.ajax({
+				url: sd.rest.store_discount.replace( '#', $(this).attr('data-store')),
+				method: 'get',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('X-WP-Nonce', sd.ajax.nonce);
+
+				},
+				dataType: 'json',
+				success: function (data) {
+					$('#edd_redeem_discount_store').html(data.code);
+				}
+			});
+        });
+
+	});
+
+})(jQuery, sd);

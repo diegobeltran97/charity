@@ -1,0 +1,68 @@
+/**
+Version: 1.0.14
+ */
+.edd-fs-taxes-wrapper small {
+	font-size: 45%;
+	font-style: italic;
+}
+
+.edd-fs-taxes-wrapper {
+	margin: 0;
+	margin-bottom: 5px;
+	line-height: 10px;
+}
+
+.plugin-page #pricing-single footer .buy-now .edd_purchase_submit_wrapper a.edd-fastspring-checkout-btn {
+	display: inline-block !important;
+	margin-top: 0;
+	padding: 10px 25px !important;
+	background: #ff7f65 !important;
+}
+
+.edd-fsc-tax-flag {
+	display: none;
+}
+
+.plugin-page .edd-fsc-price-list-plans.edd_price_options li:nth-child(2) span:not(.most-popular) {
+	color: #8dc153;
+	font-weight: bold;
+}
+
+input[type="text"].edd-fsc-renew-input {
+	width: 80%;
+	margin: 20px auto;
+	padding: 10px;
+}
+
+#edd-fsc-renew-form {
+	text-align: center;
+}
+
+#edd-fsc-renew-form .edd-fsc-renew-license-submit {
+	margin: 40px auto !important;
+	text-decoration: none;
+}
+
+.edd-fsc-price-list-plans sup {
+	font-size: 100%;
+}
+
+.edd-fs-price-no-discount {
+	display: block;
+	color: #bfbfbf;
+	font-size: 24px;
+	text-decoration: line-through;
+	letter-spacing: -0.05em;
+}
+
+.club .edd-fs-price-no-discount {
+	display: block;
+	color: #bfbfbf;
+	text-shadow: none;
+	font-size: 24px;
+	text-decoration: line-through;
+	letter-spacing: -0.05em;
+	-webkit-transform: translateY(-15px);
+	-ms-transform: translateY(-15px);
+	transform: translateY(-15px);
+}

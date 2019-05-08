@@ -1,0 +1,44 @@
+/**
+ * main.js
+ *
+ * Handles header scroll background.
+ */
+;(function($) {
+
+'use strict'
+	var headerFixed = function() {
+			var headerFix = $('.site-header.front').offset();
+			$(window).on('load scroll', function() {
+				var y = $(this).scrollTop();
+				if ( y >= headerFix) {
+					$('.site-header.front').addClass('fixed');
+				} else {
+					$('.site-header.front').removeClass('fixed');
+				}
+				if ( y >= 107 ) {
+					$('.site-header.front').addClass('float-header');
+				} else {
+					$('.site-header.front').removeClass('float-header');
+				}
+			});
+	};
+	// Dom Ready
+	$(function() {
+		headerFixed();
+	});
+	var $window = $( window );
+	/**
+	 * Page scrolled?
+	 */
+	if ( 0 == $window.scrollTop() ) {
+		$( 'body' ).addClass( 'not-scrolled' )
+	}
+
+	$window.on( 'scroll', function( e ) {
+		if ( 0 == $window.scrollTop() ) {
+			$( 'body' ).addClass( 'not-scrolled' ).removeClass( 'is-scrolled' );
+		} else {
+			$( 'body' ).addClass( 'is-scrolled' ).removeClass( 'not-scrolled' );
+		}
+	} );
+})(jQuery);
